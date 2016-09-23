@@ -1,10 +1,8 @@
 'use strict';
 
-var isDebug = true;
-
 // UTTILS
 function debug(string) {
-    if (isDebug) {
+    if (IS_DEBUG) {
         console.log(string);
     }
 }
