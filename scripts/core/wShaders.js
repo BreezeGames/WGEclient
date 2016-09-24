@@ -12,7 +12,7 @@ function parseShader(xml) {
 
     let shader = xml.querySelector("shader");
     if (!shader) {
-        throw new Error("Appropriate shader file");
+        throw new Error(`Bad shader file`);
     }
 
     let type = shader.getAttribute("type");
@@ -64,7 +64,7 @@ debug(`[Shader constructor]: creating shader from ${name}`);
             }
 
         } catch (err) {
-            throw new Error(`[Shader constructor]: ${err}`);
+            throw new Error(`[Shader constructor]: ${name} \n ${err}`);
         }
 
     }.bind(this);
