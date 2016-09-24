@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<shader type="vertex">
+    attribute vec4 position;
+
+    void main() {
+        gl_position = position;
+    }
+</shader>
