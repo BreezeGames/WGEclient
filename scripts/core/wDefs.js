@@ -10,3 +10,6 @@ var SHADERS_PATH = RES_PATH + "shaders/";
 
 
 var IS_DEBUG = true;
+
+var VERTEX_SHADER = 0x8B31,
+    FRAGMENT_SHADER = 0x8B30;

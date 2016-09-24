@@ -17,7 +17,10 @@ function Game(canvas, width, height) {
     this.frameRate = 40;
     this.stopped = false;
 
+    this.shaders = {};
+
     this.setHandlers();
+    this.loadResources();
 }
 
 // Game main cycle
@@ -43,7 +46,6 @@ debug("[Game Stop] killing game process!");
 };
 
 Game.prototype.update = function() {
-debug("[Game Update] start update!");
      //TODO Update logic
 	 this.render.draw();
 };
@@ -70,4 +72,21 @@ Game.prototype.setHandlers = function() {
 Game.prototype.onClose = function() {
 debug("[Game onClose] clear handlers");
     // TODO: remove event listeners
+};
+
+Game.prototype.loadResources = function () {
+    this.loadShaders();
+};
+
+Game.prototype.loadShaders = function () {
+debug("[Game loadShaders]: loading shaders");
+    return new Promise(() => {
+    debug("[Game loadShaders]: shaders has been loaded");
+
+            this.shaders["simple.vs"] = new Shader(this.render.getContext(), "simple.vs.xml");
+            this.shaders["simple.fs"] = new Shader(this.render.getContext(), "simple.fs.xml");
+
+    }).catch((err) => {
+        throw `[Game loadShaders]: shaders loading error ${err}`;
+    });
 };
