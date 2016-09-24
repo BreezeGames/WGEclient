@@ -12,7 +12,7 @@ body {
 	margin: 15px;
 	text-align: center;
 	font-family: sans-serif;
-	font: 16px sans-serif;
+	font: 16px sans-serif #00CC00;
 	border-radius: 15px;
 }
 
