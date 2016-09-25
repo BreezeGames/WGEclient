@@ -7,5 +7,13 @@
 
 var IS_DEBUG = true;
 
-var VERTEX_SHADER = 0x8B31,
-    FRAGMENT_SHADER = 0x8B30;
+var VERTEX_SHADER           = 0x8B31,
+    FRAGMENT_SHADER         = 0x8B30;
+
+
+var ARRAY_BUFFER            = 0x8892,
+    ELEMENT_ARRAY_BUFFER    = 0x8893;
+
+var STREAM_DRAW             = 0x88E0,
+    STATIC_DRAW             = 0x88E4,
+    DYNAMIC_DRAW            = 0x88E8;
