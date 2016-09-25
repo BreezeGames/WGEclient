@@ -3,7 +3,7 @@
 /**
  * Created by jorgen on 24.09.16.
  */
-/* WGEngine shaders */
+/* WGEngine _shaders */
 /* version: 1.1 */
 
 
@@ -31,12 +31,12 @@ function parseShader(xml, type) {
 
 /**********************************
  * Create shader from XML file
- * @param ctx WebGL context
+ * @param gl WebGL context
  * @param name XML shader file name on server
  * @param type Shader type. Can be gl.VERTEX_SHADER or gl.FRAGMENT_SHADER
  * @constructor
  */
-function Shader(ctx, name, type) {
+function Shader(gl, name, type) {
 debug(`[Shader constructor]: creating shader from ${name}`);
 
     this._shaderFile = null;
@@ -56,12 +56,12 @@ debug(`[Shader constructor]: creating shader from ${name}`);
         try {
             this._shaderText = parseShader(this._shaderFile, type);
 
-            this._shader = ctx.createShader(this._type);
-            ctx.shaderSource(this._shader, this._shaderText);
-            ctx.compileShader(this._shader);
+            this._shader = gl.createShader(this._type);
+            gl.shaderSource(this._shader, this._shaderText);
+            gl.compileShader(this._shader);
 
-            if (!ctx.getShaderParameter(this._shader, ctx.COMPILE_STATUS)) {
-                let info = ctx.getShaderInfoLog(this._shader);
+            if (!gl.getShaderParameter(this._shader, gl.COMPILE_STATUS)) {
+                let info = gl.getShaderInfoLog(this._shader);
                 throw new Error(`shader compile error \n ${info}`);
             }
 
