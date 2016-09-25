@@ -9,7 +9,7 @@
 	<div id="wrapper">
 		<header id="main_header">
 			<h1>Canvas example</h1>
-		<nav id="main_menu">
+		<nav>
 			<ul>
 				<li>About project</li>
 				<li>How to play</li>
