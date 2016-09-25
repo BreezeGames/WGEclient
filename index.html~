@@ -4,16 +4,17 @@
         <meta charset="UTF-8">
         <title>WGEngine official page.</title>
         <link rel="stylesheet" href="styles/global.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet"> 
     </head>
     <body>
 	<div id="wrapper">
 		<header id="main_header">
-			<h1>Canvas example</h1>
-		<nav>
+			<h1>Web Game Engine</h1>
+		<nav id="main_menu">
 			<ul>
-				<li>About project</li>
-				<li>How to play</li>
-				<li>About authors</li>
+				<li><a href="none">About project</a></li>
+				<li><a href="none">How to play</a></li>
+				<li><a href="none">About authors</a></li>
 			</ul>
 		</nav>
 		</header>

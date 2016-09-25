@@ -11,16 +11,15 @@ body {
 	border-radius: 10px;
 	margin: 10px;
 	text-align: center;
-	font: 16px arial;
 	position: absolute;
 	left: 5%;
-	top: 0px;
-	width: 90%;	
+	right: 5%;
 	-webkit-transform: perspective(500px) rotate3d(1, 0, 0, -10deg);
 }
 
 #main_header h1 {
-	font: 25px arial;
+	font-family: 25px light 'Open Sans Condensed', sans-serif;
+	font-weight: lighter;
 	color: #111188;
 }
 
@@ -43,13 +42,25 @@ ul {
 	padding: 0px
 }
 
+#main_menu a {
+	text-decoration: none;
+	color: inherit;
+	transition: .5s linear;
+}
+
+#main_menu a:hover {
+	text-decoration: none;
+	color: inherit;
+	background: #afdde9AA;
+	border-radius: 5px;
+}
+
 h1 {
 	margin: 0px;
 }
 
 
 canvas {
-    border: 2px solid rgba(0, 0, 0, 0.25);
     width: 100%;
     height: 65%;
 }
