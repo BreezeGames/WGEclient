@@ -1,5 +1,8 @@
 'use strict';
 
+var RES_PATH = "res/";
+var SHADERS_PATH = RES_PATH + "shaders/";
+
 // Simple render function
 function clearScreenF() {
     this.clearScreen();
@@ -64,7 +67,7 @@ Game.prototype.setHandlers = function() {
 
     document.addEventListener("keypress", function(e) {
         if (e.charCode == 32) {
-            this.render.setFullScreen(this.render.isFullScreen ^ 1);
+            this.render.setFullScreen(this.render._isFullScreen ^ 1);
         }
     }.bind(this));
 };
@@ -80,13 +83,11 @@ Game.prototype.loadResources = function () {
 
 Game.prototype.loadShaders = function () {
 debug("[Game loadShaders]: loading shaders");
-    return new Promise(() => {
-    debug("[Game loadShaders]: shaders has been loaded");
-
-            this.shaders["simple.vs"] = new Shader(this.render.getContext(), "simple.vs.xml");
-            this.shaders["simple.fs"] = new Shader(this.render.getContext(), "simple.fs.xml");
-
-    }).catch((err) => {
-        throw `[Game loadShaders]: shaders loading error ${err}`;
-    });
+    return new Promise((res) => {
+            this.shaders["simple.vs"] = new Shader(this.render.getContext(), SHADERS_PATH + "simple.xml", VERTEX_SHADER);
+            this.shaders["simple.vs"] = new Shader(this.render.getContext(), SHADERS_PATH + "simple.xml", FRAGMENT_SHADER);
+            res();
+    }).then(() => {
+        debug("[Game loadShaders]: shaders has been loaded");
+    })
 };

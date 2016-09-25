@@ -4,29 +4,29 @@
  * Created by jorgen on 24.09.16.
  */
 /* WGEngine shaders */
-/* version: 1.0 */
+/* version: 1.1 */
 
 
-function parseShader(xml) {
-    console.log(xml.querySelector("shader"));
-
-    let shader = xml.querySelector("shader");
-    if (!shader) {
-        throw new Error(`Bad shader file`);
-    }
-
-    let type = shader.getAttribute("type");
+function parseShader(xml, type) {
+    let xmlType = null;
     switch(type) {
-        case "vertex":
-            type = VERTEX_SHADER;
+        case VERTEX_SHADER:
+            xmlType = "vertex";
             break;
-        case "fragment":
-            type = FRAGMENT_SHADER;
+        case FRAGMENT_SHADER:
+            xmlType = "fragment";
             break;
         default:
-            throw new Error("Appropriate shader file");
+            throw new Error("Appropriate shader type");
     }
-    return { source: shader.textContent, type: type};
+
+    let shader = xml.querySelector(`shader[type="${xmlType}"]`);
+    console.info(shader);
+    if (!shader) {
+        throw new Error(`Can't find shader resource of type ${xmlType}`);
+    }
+
+    return shader.textContent;
 }
 
 /**********************************
@@ -36,23 +36,25 @@ function parseShader(xml) {
  * @param type Shader type. Can be gl.VERTEX_SHADER or gl.FRAGMENT_SHADER
  * @constructor
  */
-function Shader(ctx, name) {
+function Shader(ctx, name, type) {
 debug(`[Shader constructor]: creating shader from ${name}`);
 
     this._shaderFile = null;
     this._shaderText = null;
     this._shader = null;
-    this._type = null;
+    this._type = type;
 
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function() {
+        if (xhr.status != 200) {
+            throw new Error(`[Shader constructor]: status ${xhr.status} : ${xhr.statusText}`);
+        }
+
         this._shaderFile = xhr.responseXML;
 
         try {
-            let parsed = parseShader(this._shaderFile);
-            this._shaderText = parsed.source;
-            this._type = parsed.type;
+            this._shaderText = parseShader(this._shaderFile, type);
 
             this._shader = ctx.createShader(this._type);
             ctx.shaderSource(this._shader, this._shaderText);
@@ -69,11 +71,11 @@ debug(`[Shader constructor]: creating shader from ${name}`);
 
     }.bind(this);
 
-    xhr.onerror = function(err) {
+    xhr.onerr = function(err) {
         throw new Error(`[Shader constructor]: ${err}`);
     };
 
-    xhr.open("GET", SHADERS_PATH + name);
+    xhr.open("GET", name);
     xhr.responseType = "document";
     xhr.send();
 }
