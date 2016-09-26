@@ -22,9 +22,10 @@ p {
 }
 
 #main_header h1 {
-	font-family: 25px light 'Open Sans Condensed', sans-serif;
-	font-weight: lighter;
-	color: #111188;
+	font-size: 80px;
+   font-family: 'VT323', monospace;
+	font-weight: normal;
+	color: #7d4622ff;
 }
 
 #main_menu li {
@@ -33,6 +34,7 @@ p {
 	border-left: 2px solid #1111AA;
 	margin-left: 10px;
 	padding-left: 15px;
+	font-size: 20px;
 }
 
 #main_menu li:first-of-type {
@@ -64,13 +66,32 @@ h1 {
 }
 
 
-canvas {
+canvas, #tutorial {
     width: 100%;
     height: 65%;
 }
 
 #article_01 {
-	background: #eee7a2;
+	background: #ff8a3cff;
+	height: 300px;
+}
+
+#article_01 span {
+	background-color: #e75c00bb;
+}
+
+#article_02 {
+	background: #ffbd91ff;
+	height: 500px;
+}
+
+#article_02 span {
+	background-color: #ff8a3cff;
+	font: 60px 'Open Sans Condensed', sans-serif;
+}
+
+#article_02 p {
+	flex: 2;
 }
 
 #main_footer {
@@ -82,13 +103,19 @@ canvas {
 article {
 	display: flex;
 	margin: none;
-	height: 300px;
 	width:100%;
+}
+
+article span {
+	color: #ffffff;
+}
+
+.right_text_article p{
+	margin-left: 15%
 }
 
 article p {
 	flex: 3;
-	color: #b76732;
 	font: 50px 'Open Sans Condensed', sans-serif;
 	font-weight: normal;
 	padding: 30px;
@@ -100,12 +127,12 @@ article figure {
 
 article figcaption a{
 	text-decoration: none;
-	color:inherit;
+	color:#44444401;
 	font:inherit;
 	font-size: 10px;
 }
 
-article figcaption {
+.left_text_article figcaption {
 	text-align: right;
 }
 
