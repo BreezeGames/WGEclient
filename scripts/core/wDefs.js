@@ -17,3 +17,9 @@ var ARRAY_BUFFER            = 0x8892,
 var STREAM_DRAW             = 0x88E0,
     STATIC_DRAW             = 0x88E4,
     DYNAMIC_DRAW            = 0x88E8;
+
+var LINK_STATUS             = 0x8B82;
+
+var FLOAT                   = 0x1406;
+
+var TRIANGLE_STRIP          = 0x0005;

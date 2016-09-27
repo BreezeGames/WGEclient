@@ -3,9 +3,88 @@
 var RES_PATH = "res/";
 var SHADERS_PATH = RES_PATH + "shaders/";
 
-// Simple _render function
-function clearScreenF() {
-    this.clearScreen();
+/* Starting scene
+    Scene just render a square
+ */
+class StartScene extends Scene {
+    constructor() {
+        super();
+
+        this.shaders = {};
+        this.imgBuffer = null;
+        this.ready = false;
+
+        this.onReady = null;
+    }
+
+    init(gl) {
+    debug("[StartScene]: initializing resources");
+        this.gl = gl;
+
+        this.loadResources();
+        this.createBuffers();
+        this.createProgram();
+
+        this.ready = true;
+        if (this.onReady) {
+            this.onReady();
+        }
+    }
+
+    // Draw gets gl context
+    draw() {
+        this.gl.clear();
+
+        this.imgBuffer.bind();
+
+        this.program.use();
+
+        this.gl.drawArrays(TRIANGLE_STRIP, 0, 4);
+    }
+
+    update() {
+
+    }
+
+    loadResources() {
+        return this.loadShaders();
+    }
+
+    loadShaders() {
+    debug("[Game]: loading shaders");
+        //fetch()
+
+        this.shaders["simple.vs"] = new Shader(this.gl, SHADERS_PATH + "simple.xml", VERTEX_SHADER);
+        this.shaders["simple.vf"] = new Shader(this.gl, SHADERS_PATH + "simple.xml", FRAGMENT_SHADER);
+        console.log("LOADSHADERS: ", this.shaders["simple.vs"]);
+    }
+
+    createProgram() {
+        //noinspection ES6ModulesDependencies
+        console.log("CREATEPROGRAM: ", this.shaders["simple.vs"]);
+        this.program = new Program(this.gl, this.shaders["simple.vs"], this.shaders["simple.vf"]);
+
+        this.attrPosition = this.program.getAttribute("position");
+        this.gl.enableVertexAttribArray(this.attrPosition);
+
+        this.gl.vertexAttribPointer(this.attrPosition, 3, FLOAT, false, 0, 0);
+    }
+
+    createBuffers() {
+    debug("[Game]: loading buffers");
+
+        //noinspection ES6ModulesDependencies
+        this.imgBuffer = new Buffer(this.gl,
+            [
+                1.0,  1.0,  0.0,
+                -1.0, 1.0,  0.0,
+                1.0,  -1.0, 0.0,
+                -1.0, -1.0, 0.0
+            ],
+            ARRAY_BUFFER, STATIC_DRAW);
+
+    debug("[Game]: Buffers created");
+    }
 }
 
 /* Game class
@@ -14,19 +93,19 @@ function clearScreenF() {
 
 function Game(canvas, width, height) {
     this._render = new Render(canvas, width, height);
-    this._render.clearColor(1.0, 1.0, 0, 1.0);
-    this._render.setRenderFunc(clearScreenF);
 
     this._frameRate = 40;
     this._stopped = false;
 
-    this._shaders = {};
+    this.shaders = {};
 
-    this._ready = false; // All resources has been loaded
+    this.startScene = new StartScene();
+    this.startScene.init(this._render.getContext());
+    this.startScene.onReady = function() {
+        this._render.setRenderScene(this.startScene);
+    }.bind(this);
 
     this.setHandlers();
-
-    this.initialize();
 }
 
 // Game main cycle
@@ -80,42 +159,3 @@ debug("[Game] clear handlers");
     // TODO: remove event listeners
 };
 
-Game.prototype.initialize = function () {
-debug("[Game]: initializing resources");
-
-    let self = this;
-    new Promise((res) => {
-        this.loadResources();
-        this.createBuffers();
-        res();
-    }).then(() => {
-        self._ready = true;
-    }).catch((err) => {
-        debug(`[Game initialize] error: ${err}`)
-    })
-};
-
-Game.prototype.loadResources = function () {
-    this.loadShaders();
-};
-
-Game.prototype.loadShaders = function () {
-debug("[Game]: loading _shaders");
-    this._shaders["simple.vs"] = new Shader(this._render.getContext(), SHADERS_PATH + "simple.xml", VERTEX_SHADER);
-    this._shaders["simple.vs"] = new Shader(this._render.getContext(), SHADERS_PATH + "simple.xml", FRAGMENT_SHADER);
-};
-
-Game.prototype.createBuffers = function () {
-debug("[Game]: loading buffers");
-
-    //noinspection ES6ModulesDependencies
-    this._imgBuffer = new Buffer(this._render.getContext(),
-        [
-            1.0,  1.0,  0.0,
-            -1.0, 1.0,  0.0,
-            1.0,  -1.0, 0.0,
-            -1.0, -1.0, 0.0
-        ],
-        ARRAY_BUFFER, STATIC_DRAW);
-
-};

@@ -27,13 +27,13 @@ debug("[Render constructor]: initializing webGL context");
         this._canvas.height = height;
     }
 
-    this._renderFunc = null;
+    this._renderScene = null;
     this._isFullScreen = false;
 }
 
-Render.prototype.setRenderFunc = function(func) {
-    if (func) {
-        this._renderFunc = func;
+Render.prototype.setRenderScene = function(scene) {
+    if (scene) {
+        this._renderScene = scene;
     }
 };
 
@@ -72,13 +72,17 @@ Render.prototype.clearColor = function(r, g, b, a) {
     }
 };
 
-Render.prototype.clearScreen = function() {
-    this._ctx.clear(this._ctx.COLOR_BUFFER_BIT);
+Render.prototype.clearScreen = function(depth) {
+    let clr = this._ctx.COLOR_BUFFER_BIT;
+    clr |= depth ? this._ctx.DEPTH_BUFFER_BIT : 0;
+
+    this._ctx.clear(clr);
 };
 
 Render.prototype.draw = function() {
-    if (this._renderFunc) {
-        this._renderFunc();
+    if (this._renderScene) {
+        this._renderScene.update();
+        this._renderScene.draw();
     }
 };
 

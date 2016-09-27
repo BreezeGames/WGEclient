@@ -3,7 +3,7 @@
 /**
  * Created by jorgen on 24.09.16.
  */
-/* WGEngine _shaders */
+/* WGEngine shaders */
 /* version: 1.1 */
 
 
@@ -32,52 +32,27 @@ function parseShader(xml, type) {
 /**********************************
  * Create shader from XML file
  * @param gl WebGL context
- * @param name XML shader file name on server
+ * @param shaderXml XML shader object
  * @param type Shader type. Can be gl.VERTEX_SHADER or gl.FRAGMENT_SHADER
  * @constructor
  */
-function Shader(gl, name, type) {
-debug(`[Shader constructor]: creating shader from ${name}`);
+function Shader(gl, shaderXml, type) {
+debug(`[Shader constructor]: creating shader`);
 
-    this._shaderFile = null;
     this._shaderText = null;
     this._shader = null;
     this._type = type;
 
-    var xhr = new XMLHttpRequest();
+    this._shaderText = parseShader(shaderXml);
+    this._shader = gl.createShader(this._type);
+    gl.shaderSource(this._shader, this._shaderText);
+    gl.compileShader(this._shader);
 
-    xhr.onload = function() {
-        if (xhr.status != 200) {
-            throw new Error(`[Shader constructor]: status ${xhr.status} : ${xhr.statusText}`);
-        }
+    if (!gl.getShaderParameter(this._shader, gl.COMPILE_STATUS)) {
+        let info = gl.getShaderInfoLog(this._shader);
+        throw new Error(`shader compile error \n ${info}`);
+    }
 
-        this._shaderFile = xhr.responseXML;
-
-        try {
-            this._shaderText = parseShader(this._shaderFile, type);
-
-            this._shader = gl.createShader(this._type);
-            gl.shaderSource(this._shader, this._shaderText);
-            gl.compileShader(this._shader);
-
-            if (!gl.getShaderParameter(this._shader, gl.COMPILE_STATUS)) {
-                let info = gl.getShaderInfoLog(this._shader);
-                throw new Error(`shader compile error \n ${info}`);
-            }
-
-        } catch (err) {
-            throw new Error(`[Shader constructor]: ${name} \n ${err}`);
-        }
-
-    }.bind(this);
-
-    xhr.onerr = function(err) {
-        throw new Error(`[Shader constructor]: ${err}`);
-    };
-
-    xhr.open("GET", name);
-    xhr.responseType = "document";
-    xhr.send();
 }
 
 Shader.prototype.shader = () => {
@@ -87,3 +62,39 @@ Shader.prototype.shader = () => {
 Shader.prototype.type = () => {
     return this._type;
 };
+
+/*
+    Program class
+    version: 1.0
+ */
+class Program {
+    constructor(gl, vertex, fragment) {
+        this._gl = gl;
+        this._program = gl.createProgram();
+
+        if (vertex) {
+            gl.attachShader(this._program, vertex.shader());
+        }
+        if (fragment) {
+            gl.attachShader(this._program, fragment.shader());
+        }
+
+        gl.linkProgram(this._program);
+
+        if (!gl.getProgramParameter(this._program, LINK_STATUS)) {
+            throw new Error("[Program constructor] linking error");
+        }
+    }
+
+    get program() {
+        return this._program;
+    }
+
+    getAttribute(name) {
+        return this._gl.getAttribLocation(this._program, name);
+    }
+
+    use() {
+        this._gl.useProgram(this._program);
+    }
+}
