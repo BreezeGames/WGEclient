@@ -7,6 +7,7 @@ module.exports = function(grunt) {
         concat: {
             main: {
                 src: [
+                    "scripts/lib/**/*.js",
                     "scripts/core/*.js"
                 ],
                 dest: "build/wgecore.js"

@@ -7,18 +7,31 @@
 
 class Scene {
     constructor() {
-
+        this.onReady = () => {};
     }
 
     init() {
-        throw new Error("Init method not implemented");
+        this.loadResources().then(() => {
+            this.createResources();
+            this.onReady();
+        });
+    }
+
+    // Sync
+    createResources() {
+        throw new Error("createResources method not implemented");
+    }
+
+    // Async
+    loadResources() { //!!MUST RETURN PROMISE
+        throw new Error("loadResources method not implemented");
     }
 
     draw() {
-        throw new Error("Draw method not implemented");
+        throw new Error("render method not implemented");
     }
 
     update() {
-        throw new Error("Update method not implemented");
+        throw new Error("update method not implemented");
     }
 }

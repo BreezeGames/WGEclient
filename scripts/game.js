@@ -7,34 +7,27 @@ var SHADERS_PATH = RES_PATH + "shaders/";
     Scene just render a square
  */
 class StartScene extends Scene {
-    constructor() {
+    constructor(context) {
         super();
 
         this.shaders = {};
         this.imgBuffer = null;
+        this.gl = context;
 
-        this.onReady = null;
+        super.init();
     }
 
-    init(gl) {
-        Uttils.debug("[StartScene]: initializing resources");
-        this.gl = gl;
-
-        this.loadResources();
+    createResources() {
+        Uttils.debug("Creating resources...");
         this.createBuffers();
         this.createProgram();
-
-        if (this.onReady) {
-            this.onReady();
-        }
     }
 
     // Draw gets gl context
     draw() {
-        this.gl.clear();
+        this.gl.clear(COLOR_BUFFER_BIT);
 
         this.imgBuffer.bind();
-
         this.program.use();
 
         this.gl.drawArrays(TRIANGLE_STRIP, 0, 4);
@@ -51,10 +44,21 @@ class StartScene extends Scene {
     loadShaders() {
         Uttils.debug("[Game]: loading shaders");
 
-        //fetch()
+        return new Promise (done => {
+            // SIMPLE SHADER DOWNLOAD
+            fetch(`${SHADERS_PATH}simple.xml`).then(response => {
+                Uttils.debug(`File ${response.url} loaded. Status: ${response.status}`);
+                return response.text();
+            }).then(file => {
+                file = new DOMParser().parseFromString(file, "text/xml");
+                this.shaders["simple.vs"] = new Shader(this.gl, file, VERTEX_SHADER);
+                this.shaders["simple.vf"] = new Shader(this.gl, file, FRAGMENT_SHADER);
+                done();
+            }).catch(err => {
+                throw err;
+            });
 
-        this.shaders["simple.vs"] = new Shader(this.gl, SHADERS_PATH + "simple.xml", VERTEX_SHADER);
-        this.shaders["simple.vf"] = new Shader(this.gl, SHADERS_PATH + "simple.xml", FRAGMENT_SHADER);
+        });
     }
 
     createProgram() {
@@ -96,8 +100,7 @@ class Game {
 
         this.shaders = {};
 
-        this.startScene = new StartScene();
-        this.startScene.init(this._render.getContext());
+        this.startScene = new StartScene(this._render.getContext());
         this.startScene.onReady = function () {
             this._render.setRenderScene(this.startScene);
         }.bind(this);
@@ -129,7 +132,7 @@ class Game {
 
     update() {
         //TODO Update logic
-        this._render.draw();
+        this._render.render();
     }
 
     setFrameRate(fps) {

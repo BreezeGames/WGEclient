@@ -23,3 +23,7 @@ var LINK_STATUS             = 0x8B82;
 var FLOAT                   = 0x1406;
 
 var TRIANGLE_STRIP          = 0x0005;
+
+var COLOR_BUFFER_BIT        = 0x00004000,
+    DEPTH_BUFFER_BIT        = 0x00000100,
+    STENCIL_BUFFER_BIT      = 0x00000400;

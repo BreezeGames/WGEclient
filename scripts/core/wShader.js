@@ -21,7 +21,6 @@ function parseShader(xml, type) {
     }
 
     let shader = xml.querySelector(`shader[type="${xmlType}"]`);
-    console.info(shader);
     if (!shader) {
         throw new Error(`Can't find shader resource of type ${xmlType}`);
     }
@@ -44,7 +43,7 @@ class Shader {
         this._shader = null;
         this._type = type;
 
-        this._shaderText = parseShader(shaderXml);
+        this._shaderText = parseShader(shaderXml, type);
         this._shader = gl.createShader(this._type);
         gl.shaderSource(this._shader, this._shaderText);
         gl.compileShader(this._shader);
@@ -75,10 +74,10 @@ class Program {
         this._program = gl.createProgram();
 
         if (vertex) {
-            gl.attachShader(this._program, vertex.shader());
+            gl.attachShader(this._program, vertex.shader);
         }
         if (fragment) {
-            gl.attachShader(this._program, fragment.shader());
+            gl.attachShader(this._program, fragment.shader);
         }
 
         gl.linkProgram(this._program);

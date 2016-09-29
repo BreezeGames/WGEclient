@@ -81,7 +81,7 @@ class Render {
         this._ctx.clear(clr);
     }
 
-    draw() {
+    render() {
         if (this._renderScene) {
             this._renderScene.update();
             this._renderScene.draw();
