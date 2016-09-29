@@ -7,7 +7,7 @@
 
 class Buffer {
     constructor(gl, data, type, drawType = STATIC_DRAW) {
-debug("[Buffer constructor]: Constructing buffer");
+        Uttils.debug("[Buffer constructor]: Constructing buffer");
 
         try {
             this._data = data;

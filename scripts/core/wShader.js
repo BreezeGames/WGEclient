@@ -29,40 +29,42 @@ function parseShader(xml, type) {
     return shader.textContent;
 }
 
-/**********************************
- * Create shader from XML file
- * @param gl WebGL context
- * @param shaderXml XML shader object
- * @param type Shader type. Can be gl.VERTEX_SHADER or gl.FRAGMENT_SHADER
- * @constructor
- */
-function Shader(gl, shaderXml, type) {
-debug(`[Shader constructor]: creating shader`);
+class Shader {
+    /**********************************
+     * Create shader from XML file
+     * @param gl WebGL context
+     * @param shaderXml XML shader object
+     * @param type Shader type. Can be gl.VERTEX_SHADER or gl.FRAGMENT_SHADER
+     * @constructor
+     */
+    constructor(gl, shaderXml, type) {
+        Uttils.debug(`[Shader constructor]: creating shader`);
 
-    this._shaderText = null;
-    this._shader = null;
-    this._type = type;
+        this._shaderText = null;
+        this._shader = null;
+        this._type = type;
 
-    this._shaderText = parseShader(shaderXml);
-    this._shader = gl.createShader(this._type);
-    gl.shaderSource(this._shader, this._shaderText);
-    gl.compileShader(this._shader);
+        this._shaderText = parseShader(shaderXml);
+        this._shader = gl.createShader(this._type);
+        gl.shaderSource(this._shader, this._shaderText);
+        gl.compileShader(this._shader);
 
-    if (!gl.getShaderParameter(this._shader, gl.COMPILE_STATUS)) {
-        let info = gl.getShaderInfoLog(this._shader);
-        throw new Error(`shader compile error \n ${info}`);
+        if (!gl.getShaderParameter(this._shader, gl.COMPILE_STATUS)) {
+            let info = gl.getShaderInfoLog(this._shader);
+            throw new Error(`shader compile error \n ${info}`);
+        }
+
+    }
+
+    get shader(){
+        return this._shader;
+    }
+
+    get type() {
+        return this._type;
     }
 
 }
-
-Shader.prototype.shader = () => {
-    return this._shader;
-};
-
-Shader.prototype.type = () => {
-    return this._type;
-};
-
 /*
     Program class
     version: 1.0
