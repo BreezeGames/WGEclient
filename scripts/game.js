@@ -30,7 +30,7 @@ class StartScene extends Scene {
         this.imgBuffer.bind();
         this.program.use();
 
-        this.gl.drawArrays(TRIANGLE_STRIP, 0, 4);
+        this.gl.drawArrays(LINE_STRIP, 0, 4);
     }
 
     update() {
@@ -66,8 +66,8 @@ class StartScene extends Scene {
         this.program = new Program(this.gl, this.shaders["simple.vs"], this.shaders["simple.vf"]);
 
         this.attrPosition = this.program.getAttribute("position");
-        this.gl.enableVertexAttribArray(this.attrPosition);
 
+        this.gl.enableVertexAttribArray(this.attrPosition);
         this.gl.vertexAttribPointer(this.attrPosition, 3, FLOAT, false, 0, 0);
     }
 

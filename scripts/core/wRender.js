@@ -5,7 +5,7 @@ class Render {
 
     constructor(canvas, width, height) {
         if (!canvas) {
-            throw new Error("[Render constructor]: wrong canvas element");
+            throw new Error("[Render constructor]: wrong canvas elem");
         }
 
         this._canvas = canvas;
