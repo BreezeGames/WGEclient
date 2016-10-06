@@ -3,14 +3,24 @@
  * Created by jorgen on 25.09.16.
  */
 /* Buffer incapsulation class */
-/* version: 1.0               */
+/* version: 1.1               */
 
 class Buffer {
     constructor(gl, data, type, drawType = STATIC_DRAW) {
         Uttils.debug("[Buffer constructor]: Constructing buffer");
 
         try {
-            this._data = data;
+            this._data = [];
+            this._size = 0;
+            this._dem = data[0].length;
+
+            for (let vertex of data) {
+                ++this._size;
+                for (let coord of vertex) {
+                    this._data.push(coord);
+                }
+            }
+
             this._type = type;
             this._drawType = drawType;
             this.gl = gl;
@@ -25,6 +35,14 @@ class Buffer {
 
     get data() {
         return this._data;
+    }
+
+    get dem() {
+        return this._dem;
+    }
+
+    get size() {
+        return this._size;
     }
 
     bind() {
