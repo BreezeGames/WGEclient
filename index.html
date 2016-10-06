@@ -4,13 +4,47 @@
         <meta charset="UTF-8">
         <title>WGEngine official page.</title>
         <link rel="stylesheet" href="styles/global.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
     </head>
     <body>
-        <h1>Canvas example</h1>
-	<br>
-        <canvas id="tutorial" width="150" height="150">
-            Why you are using this shit browser, bro?
-        </canvas>
+	<div id="wrapper">
+		<div id="header_wrapper">
+		<header id="main_header">
+			<h1>Web Game Engine</h1>
+		<nav id="main_menu">
+			<ul>
+				<li><a href="none">About project</a></li>
+				<li><a href="none">How to play</a></li>
+				<li><a href="none">About authors</a></li>
+			</ul>
+		</nav>
+		</header>
+		</div>
+		<section>
+			<img id="tutorial" width="150" heigth="200" 
+			src="http://4.bp.blogspot.com/-YHtiO7gtcy4/TWaSptmcSXI/AAAAAAAAAHE/XEJnSchMGgA/s1600/wallpaper-741106.png"/>
+			<article class="left_article" id="article_01">	
+				<p><span>Enjoy power of high-end WebGL based engine.</span></p>
+				<figure>
+					<img src="res/img/main01.png" width="269" height="250" alt="Animal"/>
+					<figcaption><small>
+					<a href='http://www.freepik.com/free-ve
+					ctor/set-of-funny-cartoon-animals_683237.htm'>Designed by Freepik</a>
+					</small></figcaption>
+				</figure>		
+			</article>
+			<article class="right_text_article" id="article_02">
+					<figure>
+					<img src="res/img/main02.png" width="485" height="450" alt="Animal"/>
+					<figcaption><small>
+					<a href='http://www.freepik.com/free-ve
+					ctor/set-of-funny-cartoon-animals_683237.htm'>Designed by Freepik</a>
+					</small></figcaption>			
+				</figure>
+				<p><span> New word in portable software. Write once, runs everywhere!</span></p>
+			</article>
+		</section>
 
         <!-- TODO: CHANGE TO MIN VERSION -->
         <script src="scripts/lib/fetch.js"></script>
@@ -18,7 +52,12 @@
 
         <script src="build/wgecore.js"></script>
 
-        <script src="scripts/game.js"></script>
-        <script src="scripts/main.js"></script>
+	<script src="scripts/game.js"></script>
+	<script src="scripts/main.js"></script>
+
+		<footer id="main_footer">
+			<small>Copyrights BreezeGames &copy 2016-2017.</small>
+		</footer>
+	</div>
     </body>
 </html>

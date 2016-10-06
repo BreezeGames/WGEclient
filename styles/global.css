@@ -1,5 +1,141 @@
 /* Canvas styles */
 
-canvas {
-    border: 2px solid rgba(0, 0, 0, 0.25);
+body {
+	margin: 0px;
+	padding: 0px;
 }
+
+p {
+	margin: 0px;
+}
+
+#main_header {
+	border: 1px solid #CCCCBB;
+	background: #C4C5C533;
+	border-radius: 10px;
+	margin: 10px;
+	text-align: center;
+	position: absolute;
+	left: 5%;
+	right: 5%;
+	-webkit-transform: perspective(500px) rotate3d(1, 0, 0, -10deg);
+}
+
+#main_header h1 {
+	font-size: 80px;
+   font-family: 'VT323', monospace;
+	font-weight: normal;
+	color: #7d4622ff;
+}
+
+#main_menu li {
+	display: inline-block;
+	list-style: none;
+	border-left: 2px solid #1111AA;
+	margin-left: 10px;
+	padding-left: 15px;
+	font-size: 20px;
+}
+
+#main_menu li:first-of-type {
+	border: none;
+	margin-left: 0px;
+	padding-left: 0px;
+}
+
+
+ul {
+	padding: 0px
+}
+
+#main_menu a {
+	text-decoration: none;
+	color: inherit;
+	transition: .5s linear;
+}
+
+#main_menu a:hover {
+	text-decoration: none;
+	color: inherit;
+	background: #afdde9AA;
+	border-radius: 5px;
+}
+
+h1 {
+	margin: 0px;
+}
+
+
+canvas, #tutorial {
+    width: 100%;
+    height: 65%;
+}
+
+#article_01 {
+	background: #ff8a3cff;
+	height: 300px;
+}
+
+#article_01 span {
+	background-color: #e75c00bb;
+}
+
+#article_02 {
+	background: #ffbd91ff;
+	height: 500px;
+}
+
+#article_02 span {
+	background-color: #ff8a3cff;
+	font: 60px 'Open Sans Condensed', sans-serif;
+}
+
+#article_02 p {
+	flex: 2;
+}
+
+#main_footer {
+	clear: both;
+	text-align: center;
+	background: #decd87ff;
+}
+
+article {
+	display: flex;
+	margin: none;
+	width:100%;
+}
+
+article span {
+	color: #ffffff;
+}
+
+.right_text_article p{
+	margin-left: 15%
+}
+
+article p {
+	flex: 3;
+	font: 50px 'Open Sans Condensed', sans-serif;
+	font-weight: normal;
+	padding: 30px;
+}
+
+article figure {
+	flex: 2;
+}
+
+article figcaption a{
+	text-decoration: none;
+	color:#44444401;
+	font:inherit;
+	font-size: 10px;
+}
+
+.left_text_article figcaption {
+	text-align: right;
+}
+
+
+
+
