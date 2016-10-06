@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources name="simple">
-    <shader type="vertex">
-        attribute vec4 position;
 
-        void main() {
-            gl_Position = position;
-        }
+    <shader type="vertex">
+        <attributes>
+            attribute vec3 position;
+
+            uniform mat4 mvMatrix;
+            uniform mat4 pMatrix;
+        </attributes>
+        <body>
+            void main() {
+                gl_Position = mvMatrix * vec4(position, 1.0);
+            }
+        </body>
     </shader>
 
     <shader type="fragment">
-        void main() {
-            gl_FragColor = vec4(1.0, 0.5, 0.4, 1.0);
-        }
+        <body>
+            void main() {
+                gl_FragColor = vec4(1.0, 0.5, 0.4, 1.0);
+            }
+        </body>
     </shader>
 </resources>
