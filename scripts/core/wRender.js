@@ -82,6 +82,7 @@ class Render {
     }
 
     render() {
+        this.viewport(0, 0, this.width(), this.height());
         if (this._renderScene) {
             this._renderScene.update();
             this._renderScene.draw();
