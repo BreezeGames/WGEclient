@@ -14,6 +14,12 @@ class StartScene extends Scene {
         this.imgBuffer = null;
         this.gl = context;
 
+        this.mvMatrix = mat4.create();
+        mat4.identity(this.mvMatrix);
+        mat4.scale(this.mvMatrix, this.mvMatrix, [0.5, 0.5, 1.0]);
+
+        this.pMatrix = mat4.create();
+
         super.init();
     }
 
@@ -27,10 +33,17 @@ class StartScene extends Scene {
     draw() {
         this.gl.clear(COLOR_BUFFER_BIT);
 
-        this.imgBuffer.bind();
-        this.program.use();
+        mat4.perspective(this.pMatrix, 45, 16/9, 0.1, 100.0);
+        //mat4.translate(this.mvMatrix, this.mvMatrix, [7.5, 0.0, -7.0]);
 
-        this.gl.drawArrays(LINE_STRIP, 0, 4);
+        this.imgBuffer.bind();
+        this.gl.vertexAttribPointer(
+            this.program.getAttribute("position"),
+            this.imgBuffer.itemSize, FLOAT, false, 0, 0);
+
+        this.setMatrixUniforms();
+
+        this.gl.drawArrays(TRIANGLE_STRIP, 0, this.imgBuffer.size);
     }
 
     update() {
@@ -61,14 +74,32 @@ class StartScene extends Scene {
         });
     }
 
+    moveLeft() {
+        console.log("MOVE LEFT!");
+        mat4.translate(this.mvMatrix, this.mvMatrix, [-1.0, 0.0, 0.0])
+    }
+
+    moveRight() {
+        mat4.translate(this.mvMatrix, this.mvMatrix, [1.0, 0.0, 0.0])
+    }
+
+    moveDown() {
+        mat4.translate(this.mvMatrix, this.mvMatrix, [0.0, 1.0, 0.0])
+    }
+
+    moveUp() {
+        mat4.translate(this.mvMatrix, this.mvMatrix, [0.0, -1.0, 0.0])
+    }
+    setMatrixUniforms() {
+        this.program.setUniform("mvMatrix", this.mvMatrix);
+        this.program.setUniform("pMatrix", this.pMatrix);
+    }
+
     createProgram() {
         //noinspection ES6ModulesDependencies
         this.program = new Program(this.gl, this.shaders["simple.vs"], this.shaders["simple.vf"]);
-
-        this.attrPosition = this.program.getAttribute("position");
-
-        this.gl.enableVertexAttribArray(this.attrPosition);
-        this.gl.vertexAttribPointer(this.attrPosition, 3, FLOAT, false, 0, 0);
+        this.program.use();
+        this.program.enableVertexAttribArray("position");
     }
 
     createBuffers() {
@@ -77,13 +108,15 @@ class StartScene extends Scene {
         //noinspection ES6ModulesDependencies
         this.imgBuffer = new Buffer(this.gl,
             [
-                1.0,  1.0,  0.0,
-                -1.0, 1.0,  0.0,
-                1.0,  -1.0, 0.0,
-                -1.0, -1.0, 0.0
+                [1.0,  1.0,  0.0],
+                [-1.0, 1.0,  0.0],
+                [1.0,  -1.0, 0.0],
+                [-1.0, -1.0, 0.0]
             ],
             ARRAY_BUFFER, STATIC_DRAW);
 
+        Uttils.debug(`[CreateBuffers]: size = ${this.imgBuffer.size}`);
+        Uttils.debug(`[CreateBuffers]: dem = ${this.imgBuffer.itemSize}`);
         Uttils.debug("[Game]: Buffers created");
     }
 }
@@ -126,7 +159,7 @@ class Game {
     }
 
     stop() {
-        debug("[Game] killing game process!");
+        Uttils.debug("[Game] killing game process!");
         this._stopped = true;
     }
 
@@ -150,11 +183,23 @@ class Game {
             if (e.charCode == 32) {
                 this._render.setFullScreen(this._render._isFullScreen ^ 1);
             }
+
+            if (e.keyCode == 40) {
+                this.startScene.moveUp();
+            }
+            if (e.keyCode == 38) {
+                this.startScene.moveDown();
+            }
+            if (e.keyCode == 39) {
+                this.startScene.moveRight();
+            }
+            if (e.keyCode == 37) {
+                this.startScene.moveLeft();
+            }
         }.bind(this));
     }
 
     onClose() {
-        debug("[Game] clear handlers");
         // TODO: remove event listeners
     }
 }

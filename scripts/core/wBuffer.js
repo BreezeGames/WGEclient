@@ -12,7 +12,7 @@ class Buffer {
         try {
             this._data = [];
             this._size = 0;
-            this._dem = data[0].length;
+            this._itemSize = data[0].length;
 
             for (let vertex of data) {
                 ++this._size;
@@ -37,8 +37,8 @@ class Buffer {
         return this._data;
     }
 
-    get dem() {
-        return this._dem;
+    get itemSize() {
+        return this._itemSize;
     }
 
     get size() {
